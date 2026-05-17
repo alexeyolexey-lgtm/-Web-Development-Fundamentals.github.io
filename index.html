@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Основы сайтостроения — 20 уроков</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #C2336E;
+  --primary-light: #FCEEF4;
+  --primary-mid: #F0A8C4;
+  --primary-dark: #9B1F53;
+  --accent: #FF6B9D;
+  --text: #1a1a1a;
+  --text-muted: #6b6b6b;
+  --text-hint: #aaa;
+  --bg: #fff8fb;
+  --surface: #ffffff;
+  --border: rgba(194,51,110,0.10);
+  --border-strong: rgba(194,51,110,0.20);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --sidebar-w: 300px;
+  --header-h: 58px;
+  --html-color: #C84030;
+  --html-bg: #FEF0EE;
+  --css-color: #1860A5;
+  --css-bg: #E6F1FB;
+  --js-color: #8A5000;
+  --js-bg: #FEF0D0;
+  --proj-color: #0F6E56;
+  --proj-bg: #E1F5EE;
+  --code-bg: #FFF0F6;
+  --code-border: #F5C0D8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  background: var(--bg);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER */
+.site-header {
+  height: var(--header-h);
+  background: linear-gradient(135deg, #C2336E 0%, #E8527A 100%);
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+.site-header h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  flex: 1;
+}
+.site-header .meta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  gap: 14px;
+}
+.home-btn {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.30);
+  border-radius: var(--radius-sm);
+  padding: 6px 11px;
+  cursor: pointer;
+  font-size: 15px;
+  color: white;
+  line-height: 1;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.home-btn:hover { background: rgba(255,255,255,0.30); }
+.menu-btn {
+  display: none;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.30);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+.progress-global {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.progress-bar-wrap {
+  width: 120px;
+  height: 6px;
+  background: rgba(255,255,255,0.30);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: white;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+.progress-label { font-size: 12px; color: rgba(255,255,255,0.85); white-space: nowrap; }
+
+/* LAYOUT */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 0.5px solid var(--border-strong);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-search {
+  padding: 12px 14px;
+  border-bottom: 0.5px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-search input {
+  width: 100%;
+  padding: 7px 10px;
+  font-size: 13px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  outline: none;
+}
+.sidebar-search input::placeholder { color: var(--text-hint); }
+.sidebar-search input:focus { border-color: var(--primary); }
+
+.block-header {
+  padding: 10px 14px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-hint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.block-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.12s;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+}
+.lesson-item:hover { background: var(--bg); }
+.lesson-item.active {
+  background: var(--primary-light);
+  border-left-color: var(--primary);
+}
+.lesson-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-hint);
+  min-width: 22px;
+  flex-shrink: 0;
+}
+.lesson-title-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+.lesson-item.active .lesson-title-text { color: var(--primary); font-weight: 500; }
+.lesson-done {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px;
+  color: transparent;
+  transition: all 0.2s;
+}
+.lesson-done.done {
+  background: #1D9E75;
+  border-color: #1D9E75;
+  color: white;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+.lesson-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 36px 32px 80px;
+}
+
+.lesson-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.lesson-badge.html { background: var(--html-bg); color: var(--html-color); }
+.lesson-badge.css  { background: var(--css-bg);  color: var(--css-color);  }
+.lesson-badge.js   { background: var(--js-bg);   color: var(--js-color);   }
+.lesson-badge.proj { background: var(--proj-bg); color: var(--proj-color); }
+
+.lesson-page h1 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.lesson-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.lesson-page h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 32px 0 12px;
+  color: var(--text);
+}
+.lesson-page h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 22px 0 8px;
+  color: var(--text);
+}
+.lesson-page p { margin-bottom: 14px; color: var(--text); }
+
+.lesson-page .goal-box {
+  background: var(--primary-light);
+  border: 0.5px solid var(--primary-mid);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--primary-dark);
+}
+.lesson-page .goal-box strong { font-weight: 600; }
+
+pre, code {
+  font-family: 'JetBrains Mono', monospace;
+}
+pre {
+  background: var(--code-bg);
+  border: 0.5px solid var(--code-border);
+  border-radius: var(--radius);
+  padding: 18px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 14px 0 20px;
+  color: #2e1f7a;
+}
+code {
+  background: var(--code-bg);
+  border: 0.5px solid var(--code-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 13px;
+  color: #2e1f7a;
+}
+pre code { background: none; border: none; padding: 0; }
+
+.note-box {
+  background: #fffaec;
+  border: 0.5px solid #f0d070;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  color: #5a3e00;
+}
+.note-box strong { font-weight: 600; }
+
+.tasks-section {
+  margin-top: 36px;
+  border-top: 0.5px solid var(--border);
+  padding-top: 28px;
+}
+.task-card {
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 12px;
+  background: var(--surface);
+}
+.task-level {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.task-level.basic { color: var(--proj-color); }
+.task-level.middle { color: var(--css-color); }
+.task-level.hard { color: var(--html-color); }
+.task-card p { margin: 0; font-size: 14px; }
+
+.questions-section {
+  margin-top: 28px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.questions-section h2 { margin-top: 0; margin-bottom: 14px; }
+.questions-section ol {
+  padding-left: 20px;
+}
+.questions-section li {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.conclusion-box {
+  margin-top: 32px;
+  background: var(--proj-bg);
+  border: 0.5px solid #9FE1CB;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font-size: 14px;
+  color: #085041;
+}
+
+.lesson-nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 0.5px solid var(--border);
+}
+.nav-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text);
+  text-align: center;
+  transition: background 0.12s;
+}
+.nav-btn:hover { background: var(--bg); }
+.nav-btn.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.nav-btn.primary:hover { background: var(--primary-dark); }
+.nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.done-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: none;
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.done-btn:hover { border-color: #1D9E75; color: #1D9E75; }
+.done-btn.marked { background: #E1F5EE; border-color: #1D9E75; color: #0F6E56; font-weight: 500; }
+.done-btn .check-icon { font-size: 14px; }
+
+/* WELCOME SCREEN */
+.welcome-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 48px 32px 80px;
+}
+.welcome-hero {
+  text-align: center;
+  margin-bottom: 44px;
+}
+.welcome-hero .hero-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-bottom: 18px;
+  border: 0.5px solid var(--primary-mid);
+  letter-spacing: 0.04em;
+}
+.welcome-page .big-title {
+  font-size: 34px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.25;
+  color: var(--text);
+}
+.welcome-page .big-title span {
+  background: linear-gradient(135deg, #C2336E, #E8527A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.welcome-page .subtitle {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+.course-stats {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 44px;
+}
+.stat-pill {
+  background: white;
+  border: 0.5px solid var(--border-strong);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stat-pill strong { color: var(--text); font-weight: 600; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-hint);
+  margin-bottom: 12px;
+}
+.blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.block-card {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.block-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--card-accent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.block-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(194,51,110,0.12);
+  border-color: var(--primary-mid);
+}
+.block-card .block-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.block-card .block-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+.block-card .block-lessons-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: var(--card-bg);
+  color: var(--card-color);
+}
+.block-card .block-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.block-card .block-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+.block-card .block-topics {
+  font-size: 11.5px;
+  color: var(--text-hint);
+  line-height: 1.5;
+}
+.block-card .go-arrow {
+  position: absolute;
+  bottom: 16px; right: 18px;
+  font-size: 16px;
+  color: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.block-card:hover .go-arrow { opacity: 1; }
+
+.about-section {
+  background: white;
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+  margin-bottom: 32px;
+}
+.about-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.about-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.about-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.about-item .ai { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.about-item strong { color: var(--text); font-weight: 500; }
+
+.start-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #C2336E, #E8527A);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.start-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sidebar { position: fixed; top: var(--header-h); left: 0; bottom: 0; z-index: 200; transform: translateX(-100%); transition: transform 0.25s; }
+  .sidebar.open { transform: translateX(0); }
+  .menu-btn { display: block; }
+  .lesson-page { padding: 24px 18px 60px; }
+  .blocks-grid { grid-template-columns: 1fr; }
+  .about-items { grid-template-columns: 1fr; }
+  .site-header .meta { display: none; }
+  .progress-bar-wrap { width: 80px; }
+  .welcome-page { padding: 28px 18px 60px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <button class="menu-btn" onclick="toggleSidebar()" aria-label="Меню">☰</button>
+  <button class="home-btn" onclick="showHome()" title="На главную">🏠</button>
+  <h1>Основы сайтостроения</h1>
+  <div class="meta">
+    <span>20 уроков</span>
+    <span>8–11 классы</span>
+  </div>
+  <div class="progress-global">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="globalProgressBar" style="width:0%"></div>
+    </div>
+    <span class="progress-label" id="globalProgressLabel">0 / 20</span>
+  </div>
+</header>
+
+<div class="app-body">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-search">
+      <input type="text" placeholder="Поиск по урокам..." id="searchInput" oninput="filterLessons(this.value)">
+    </div>
+    <div id="lessonsList"></div>
+  </nav>
+
+  <main class="main-content" id="mainContent">
+    <div class="welcome-page" id="welcomeScreen">
+      <div class="welcome-hero">
+        <div class="hero-badge">✦ 2026 · Учебное пособие</div>
+        <div class="big-title">Основы<br><span>сайтостроения</span></div>
+        <p class="subtitle">Полный курс для учащихся 8–11 классов. Изучите HTML, CSS и JavaScript — от первой страницы до настоящего веб-приложения.</p>
+        <div class="course-stats">
+          <div class="stat-pill">📚 <strong>20</strong> уроков</div>
+          <div class="stat-pill">⏱ <strong>3</strong> блока</div>
+          <div class="stat-pill">🎯 <strong>8–11</strong> класс</div>
+          <div class="stat-pill">💡 <strong>60+</strong> заданий</div>
+          <div class="stat-pill">🚀 С нуля</div>
+        </div>
+      </div>
+
+      <div class="section-label">Разделы курса — нажмите, чтобы начать</div>
+      <div class="blocks-grid">
+        <div class="block-card" style="--card-accent:#C84030;--card-bg:#FEF0EE;--card-color:#C84030" onclick="openLesson(0)">
+          <div class="block-header-row">
+            <span class="block-icon">🏗️</span>
+            <span class="block-lessons-count">6 уроков</span>
+          </div>
+          <div class="block-title" style="color:#C84030">HTML</div>
+          <div class="block-desc">Уроки 1–6 · Структура и разметка</div>
+          <div class="block-topics">Теги · Формы · Таблицы<br>Семантика · Мультимедиа</div>
+          <span class="go-arrow">→</span>
+        </div>
+        <div class="block-card" style="--card-accent:#1860A5;--card-bg:#E6F1FB;--card-color:#1860A5" onclick="openLesson(6)">
+          <div class="block-header-row">
+            <span class="block-icon">🎨</span>
+            <span class="block-lessons-count">6 уроков</span>
+          </div>
+          <div class="block-title" style="color:#1860A5">CSS</div>
+          <div class="block-desc">Уроки 7–12 · Стили и макеты</div>
+          <div class="block-topics">Цвета · Шрифты · Блочная модель<br>Flexbox · Grid · Адаптивность</div>
+          <span class="go-arrow">→</span>
+        </div>
+        <div class="block-card" style="--card-accent:#8A5000;--card-bg:#FEF0D0;--card-color:#8A5000" onclick="openLesson(12)">
+          <div class="block-header-row">
+            <span class="block-icon">⚡</span>
+            <span class="block-lessons-count">6 уроков</span>
+          </div>
+          <div class="block-title" style="color:#8A5000">JavaScript</div>
+          <div class="block-desc">Уроки 13–18 · Программирование</div>
+          <div class="block-topics">Переменные · Функции · DOM<br>События · Fetch API · JSON</div>
+          <span class="go-arrow">→</span>
+        </div>
+        <div class="block-card" style="--card-accent:#C2336E;--card-bg:#FCEEF4;--card-color:#C2336E" onclick="openLesson(18)">
+          <div class="block-header-row">
+            <span class="block-icon">🛠️</span>
+            <span class="block-lessons-count">2 урока</span>
+          </div>
+          <div class="block-title" style="color:#C2336E">Проекты</div>
+          <div class="block-desc">Уроки 19–20 · Итоговые работы</div>
+          <div class="block-topics">Сайт-визитка<br>Приложение «Заметки»</div>
+          <span class="go-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h3>О курсе</h3>
+        <div class="about-items">
+          <div class="about-item"><span class="ai">🎓</span><div><strong>Для кого:</strong> учащиеся 8–11 классов, начинающие разработчики без опыта</div></div>
+          <div class="about-item"><span class="ai">📋</span><div><strong>Формат:</strong> 20 уроков с теорией, примерами кода и практическими заданиями трёх уровней</div></div>
+          <div class="about-item"><span class="ai">🔧</span><div><strong>Что нужно:</strong> только браузер и текстовый редактор — никаких установок</div></div>
+          <div class="about-item"><span class="ai">🏆</span><div><strong>Результат:</strong> умение создавать адаптивные сайты и интерактивные веб-приложения</div></div>
+          <div class="about-item"><span class="ai">✅</span><div><strong>Прогресс:</strong> отмечайте пройденные уроки — результат сохраняется в браузере</div></div>
+          <div class="about-item"><span class="ai">📖</span><div><strong>Материалы:</strong> каждый урок содержит цель, теорию, примеры и вопросы для самопроверки</div></div>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="openLesson(0)">Начать с первого урока →</button>
+    </div>
+    <div id="lessonContent" style="display:none"></div>
+  </main>
+</div>
+
+<script>
+const BLOCKS = {
+  html: { label: 'HTML', cls: 'html' },
+  css:  { label: 'CSS',  cls: 'css'  },
+  js:   { label: 'JavaScript', cls: 'js' },
+  proj: { label: 'Проект', cls: 'proj' }
+};
+
+const LESSONS = [
+  {
+    id: 0, block: 'html', num: 1,
+    title: 'Введение в веб-разработку',
+    goal: 'Познакомить учащихся с понятием веб-разработки, историей интернета и основными технологиями, используемыми при создании веб-сайтов.',
+    content: `
+<p>Представьте, что каждый день вы открываете браузер и заходите на десятки разных сайтов: читаете новости, смотрите видео, общаетесь в социальных сетях. Но задумывались ли вы когда-нибудь, как всё это устроено?</p>
+<p><strong>Веб-разработка</strong> — это область программирования и дизайна, посвящённая созданию и поддержке веб-сайтов и веб-приложений, доступных через интернет. Она охватывает задачи от вёрстки простой страницы до разработки сложных интерактивных систем.</p>
+<h2>Краткая история интернета</h2>
+<p>В конце 1960-х годов американские учёные создали сеть <strong>ARPANET</strong>. Настоящая революция произошла в <strong>1991 году</strong>, когда британский учёный <strong>Тим Бернерс-Ли</strong> предложил концепцию Всемирной паутины (WWW). Он разработал язык HTML, протокол HTTP и систему адресов URL.</p>
+<h2>Как работает веб-сайт: клиент и сервер</h2>
+<p><strong>Клиент</strong> — это браузер на вашем компьютере или телефоне. Когда вы вводите адрес сайта, браузер отправляет запрос через интернет.</p>
+<p><strong>Сервер</strong> — мощный компьютер, который работает круглосуточно и хранит файлы сайта. Получив запрос, сервер находит нужные файлы и отправляет их обратно.</p>
+<h2>Три кита веб-разработки</h2>
+<p>Любой современный веб-сайт строится на трёх основных технологиях — их часто сравнивают с домом:</p>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><strong>HTML</strong> — каркас и стены. Язык разметки, описывающий структуру документа.</li>
+  <li style="margin-bottom:8px"><strong>CSS</strong> — отделка и дизайн. Задаёт цвета, шрифты, расположение элементов.</li>
+  <li style="margin-bottom:8px"><strong>JavaScript</strong> — электричество и механизмы. Делает страницы интерактивными.</li>
+</ul>
+<h2>Фронтенд и бэкенд</h2>
+<p><strong>Фронтенд</strong> — всё, что видит пользователь: дизайн, кнопки, анимации. Фронтенд-разработчики работают с HTML, CSS и JavaScript.</p>
+<p><strong>Бэкенд</strong> — серверная часть, скрытая от глаз пользователя. Здесь используются Python, PHP, Node.js и другие языки.</p>
+<h2>Пример простейшей веб-страницы</h2>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Моя первая страница&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Привет, мир!&lt;/h1&gt;
+    &lt;p&gt;Это моя первая веб-страница.&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="note-box"><strong>Пояснение:</strong> Сохранив этот код в файл с расширением <code>.html</code> и открыв в браузере, вы увидите страницу с надписью «Привет, мир!».</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте текстовый файл с расширением .html, напишите в нём структуру из примера и откройте в браузере.' },
+      { level: 'middle', text: 'Найдите три известных сайта и определите, какие из технологий (HTML, CSS, JavaScript) задействованы на каждом и какие задачи они выполняют.' },
+      { level: 'hard', text: 'Используя инструменты разработчика (F12), исследуйте исходный код любого сайта. Найдите примеры HTML-тегов, CSS-стилей и JavaScript-кода.' }
+    ],
+    questions: [
+      'Что такое веб-разработка и какие задачи она решает?',
+      'Кто изобрёл Всемирную паутину (WWW) и в каком году?',
+      'Что такое клиент и сервер? Как они взаимодействуют?',
+      'Перечислите три основные технологии веб-разработки и кратко объясните роль каждой.',
+      'Чем отличается фронтенд-разработка от бэкенд-разработки?'
+    ],
+    conclusion: 'В этом уроке мы познакомились с основными понятиями веб-разработки: узнали, как возник интернет, как работает взаимодействие клиента и сервера, и поняли роль трёх фундаментальных технологий. В следующем уроке мы перейдём к изучению HTML.'
+  },
+  {
+    id: 1, block: 'html', num: 2,
+    title: 'HTML: структура и базовые теги',
+    goal: 'Изучить структуру HTML-документа и освоить основные теги для создания веб-страниц.',
+    content: `
+<p>HTML — язык, с помощью которого мы описываем структуру и содержимое веб-документа. В этом уроке мы разберём, как устроен HTML-документ изнутри.</p>
+<h2>Теги, элементы и атрибуты</h2>
+<p><strong>Тег</strong> — это специальная метка, заключённая в угловые скобки: <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;a&gt;</code>. Большинство тегов парные — есть открывающий и закрывающий тег.</p>
+<p><strong>Атрибуты</strong> — дополнительные параметры тега: <code>&lt;a href="https://yandex.ru"&gt;Ссылка&lt;/a&gt;</code></p>
+<h2>Обязательная структура HTML-документа</h2>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Заголовок страницы&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Содержимое страницы --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2>Основные теги</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> — заголовки (от самого крупного к мелкому)</li>
+  <li style="margin-bottom:6px"><code>&lt;p&gt;</code> — абзац текста</li>
+  <li style="margin-bottom:6px"><code>&lt;a href="..."&gt;</code> — гиперссылка</li>
+  <li style="margin-bottom:6px"><code>&lt;img src="..." alt="..."&gt;</code> — изображение</li>
+  <li style="margin-bottom:6px"><code>&lt;strong&gt;</code> — жирный текст (акцент)</li>
+  <li style="margin-bottom:6px"><code>&lt;em&gt;</code> — курсив</li>
+  <li style="margin-bottom:6px"><code>&lt;br&gt;</code> — разрыв строки</li>
+</ul>
+<h2>Пример страницы с основными тегами</h2>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Моя страница о программировании&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Введение в HTML&lt;/h1&gt;
+  &lt;p&gt;HTML — это язык разметки для создания веб-страниц.&lt;/p&gt;
+  &lt;h2&gt;Что можно делать с помощью HTML?&lt;/h2&gt;
+  &lt;p&gt;С помощью HTML можно создавать &lt;strong&gt;заголовки&lt;/strong&gt;,
+     абзацы текста и &lt;em&gt;выделять слова&lt;/em&gt;.&lt;/p&gt;
+  &lt;p&gt;Перейдите на &lt;a href="https://developer.mozilla.org"&gt;MDN Web Docs&lt;/a&gt;.&lt;/p&gt;
+  &lt;img src="logo.png" alt="Логотип сайта"&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<div class="note-box"><strong>Важно:</strong> Атрибут <code>lang="ru"</code> у тега <code>&lt;html&gt;</code> указывает язык документа. Атрибут <code>alt</code> у изображений обязателен по стандартам доступности.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте HTML-страницу о себе: с заголовком, несколькими абзацами (имя, хобби, любимые предметы) и ссылкой на ваш любимый сайт.' },
+      { level: 'middle', text: 'Создайте страницу с биографией любого известного учёного. Используйте заголовки h1–h3, абзацы, жирный и курсивный текст, ссылку на внешний источник.' },
+      { level: 'hard', text: 'Создайте страницу «Моё портфолио» с разделами: Обо мне, Мои интересы, Мои проекты, Контакты (с ссылкой mailto:). Соблюдайте правильную иерархию заголовков.' }
+    ],
+    questions: [
+      'Что такое HTML-тег? Чем открывающий тег отличается от закрывающего?',
+      'Для чего нужна строка &lt;!DOCTYPE html&gt; в начале документа?',
+      'Какое отличие между разделами &lt;head&gt; и &lt;body&gt;?',
+      'Как создать гиперссылку с помощью HTML? Какой атрибут является обязательным?',
+      'Зачем у тега &lt;img&gt; нужен атрибут alt?'
+    ],
+    conclusion: 'Мы освоили базовую структуру HTML-документа и познакомились с часто используемыми тегами. В следующем уроке мы познакомимся со списками и таблицами.'
+  },
+  {
+    id: 2, block: 'html', num: 3,
+    title: 'Списки и таблицы в HTML',
+    goal: 'Научиться создавать маркированные, нумерованные и описательные списки, а также таблицы.',
+    content: `
+<p>В HTML для организации информации существуют специальные теги для списков и таблиц. Умение работать с ними — один из важнейших навыков веб-разработчика.</p>
+<h2>Виды списков</h2>
+<h3>Маркированный список (unordered list)</h3>
+<pre>&lt;ul&gt;
+  &lt;li&gt;HTML — структура страницы&lt;/li&gt;
+  &lt;li&gt;CSS — оформление страницы&lt;/li&gt;
+  &lt;li&gt;JavaScript — интерактивность&lt;/li&gt;
+&lt;/ul&gt;</pre>
+<h3>Нумерованный список (ordered list)</h3>
+<pre>&lt;ol&gt;
+  &lt;li&gt;Планирование структуры&lt;/li&gt;
+  &lt;li&gt;Создание HTML-разметки&lt;/li&gt;
+  &lt;li&gt;Оформление с помощью CSS&lt;/li&gt;
+&lt;/ol&gt;</pre>
+<h3>Описательный список (definition list)</h3>
+<pre>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Язык гипертекстовой разметки&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Каскадные таблицы стилей&lt;/dd&gt;
+&lt;/dl&gt;</pre>
+<h2>Таблицы</h2>
+<p>Таблицы предназначены для данных с чёткой строчно-столбцовой структурой: расписание, прайс-лист, результаты опроса.</p>
+<pre>&lt;table border="1"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Урок&lt;/th&gt;
+      &lt;th&gt;Понедельник&lt;/th&gt;
+      &lt;th&gt;Вторник&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1-й&lt;/td&gt;
+      &lt;td&gt;Математика&lt;/td&gt;
+      &lt;td&gt;Физика&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2-й&lt;/td&gt;
+      &lt;td&gt;Русский язык&lt;/td&gt;
+      &lt;td&gt;Информатика&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre>
+<p>Для объединения ячеек используются атрибуты: <code>colspan</code> — по горизонтали, <code>rowspan</code> — по вертикали.</p>
+<div class="note-box"><strong>Важно:</strong> Таблицы предназначены только для табличных данных, а не для создания макета страницы — это устаревшая практика.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте страницу с маркированным списком из 5–7 любимых фильмов и нумерованным списком из 4–5 шагов приготовления любого блюда.' },
+      { level: 'middle', text: 'Создайте школьное расписание на неделю (5 дней × 6 уроков) в виде таблицы с тегами thead, tbody, th для заголовков.' },
+      { level: 'hard', text: 'Создайте таблицу сравнения 3–4 языков программирования по 5–6 параметрам. Используйте colspan для объединения заголовков.' }
+    ],
+    questions: [
+      'В чём отличие тегов &lt;ul&gt; и &lt;ol&gt;? Когда применяется каждый из них?',
+      'Как создать вложенный список? Приведите пример.',
+      'Какой тег используется для создания строк таблицы, а какой — для ячеек?',
+      'Чем отличается тег &lt;th&gt; от тега &lt;td&gt;?',
+      'Что делает атрибут colspan? Как его применить на практике?'
+    ],
+    conclusion: 'Мы освоили создание трёх видов списков и научились строить таблицы. В следующем уроке мы изучим формы.'
+  },
+  {
+    id: 3, block: 'html', num: 4,
+    title: 'Формы в HTML',
+    goal: 'Научиться создавать HTML-формы с различными элементами ввода для сбора данных от пользователей.',
+    content: `
+<p>Формы — главный инструмент взаимодействия пользователя с веб-сайтом: форма входа, поле поиска, корзина интернет-магазина — всё это HTML-формы.</p>
+<h2>Тег &lt;form&gt; и его атрибуты</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><code>action</code> — адрес сервера для отправки данных</li>
+  <li style="margin-bottom:6px"><code>method="get"</code> — данные добавляются к URL (для поиска)</li>
+  <li style="margin-bottom:6px"><code>method="post"</code> — данные в теле запроса (для паролей)</li>
+</ul>
+<h2>Типы полей &lt;input&gt;</h2>
+<pre>type="text"     — текстовое поле
+type="password" — пароль (символы скрыты)
+type="email"    — почта (с проверкой формата)
+type="number"   — число
+type="checkbox" — флажок
+type="radio"    — переключатель
+type="submit"   — кнопка отправки</pre>
+<h2>Другие элементы форм</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><code>&lt;textarea&gt;</code> — многострочное текстовое поле</li>
+  <li style="margin-bottom:6px"><code>&lt;select&gt;</code> + <code>&lt;option&gt;</code> — выпадающий список</li>
+  <li style="margin-bottom:6px"><code>&lt;label for="id"&gt;</code> — подпись к полю</li>
+</ul>
+<h2>Пример формы регистрации</h2>
+<pre>&lt;form action="/register" method="post"&gt;
+  &lt;label for="username"&gt;Имя пользователя:&lt;/label&gt;
+  &lt;input type="text" id="username" name="username"
+         placeholder="Введите имя" required&gt;
+
+  &lt;label for="email"&gt;Электронная почта:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+
+  &lt;label&gt;Пол:&lt;/label&gt;
+  &lt;input type="radio" id="male" name="gender" value="male"&gt;
+  &lt;label for="male"&gt;Мужской&lt;/label&gt;
+  &lt;input type="radio" id="female" name="gender" value="female"&gt;
+  &lt;label for="female"&gt;Женский&lt;/label&gt;
+
+  &lt;label for="country"&gt;Страна:&lt;/label&gt;
+  &lt;select id="country" name="country"&gt;
+    &lt;option value="ru" selected&gt;Россия&lt;/option&gt;
+    &lt;option value="by"&gt;Беларусь&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;input type="checkbox" id="agree" name="agree" required&gt;
+  &lt;label for="agree"&gt;Я принимаю условия&lt;/label&gt;
+
+  &lt;input type="submit" value="Зарегистрироваться"&gt;
+&lt;/form&gt;</pre>
+<div class="note-box"><strong>Обратите внимание:</strong> у переключателей radio атрибут name одинаковый — это связывает их в группу, позволяя выбрать только один вариант.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте форму обратной связи: поле для имени, email, многострочное поле для сообщения и кнопка отправки.' },
+      { level: 'middle', text: 'Создайте форму опроса: поле для имени и класса, вопросы с переключателями radio, флажки checkbox (выбор предметов) и кнопку отправки.' },
+      { level: 'hard', text: 'Создайте форму заказа в интернет-магазине: личные данные, адрес доставки, способ доставки (radio), способ оплаты (radio), textarea для комментария, поле промокода.' }
+    ],
+    questions: [
+      'Для чего служит тег &lt;form&gt;? Какие его основные атрибуты?',
+      'Чем отличается метод GET от метода POST при отправке формы?',
+      'Какой атрибут тега &lt;input&gt; определяет тип поля ввода?',
+      'Как связать тег &lt;label&gt; с полем ввода? Зачем это нужно?',
+      'В чём разница между элементами checkbox и radio?'
+    ],
+    conclusion: 'Мы изучили формы HTML. В следующем уроке разберём концепцию семантической разметки.'
+  },
+  {
+    id: 4, block: 'html', num: 5,
+    title: 'Семантический HTML',
+    goal: 'Понять принципы семантической разметки и научиться использовать семантические теги HTML5.',
+    content: `
+<p><strong>Семантическая разметка</strong> — HTML, в котором каждый тег несёт информацию о смысле заключённого в нём контента. Это важно для поисковых систем, скринридеров и других разработчиков.</p>
+<h2>Преимущества семантики</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px">Улучшает индексирование сайта поисковыми системами</li>
+  <li style="margin-bottom:6px">Делает сайт доступным для людей со скринридерами</li>
+  <li style="margin-bottom:6px">Делает код более читаемым для других разработчиков</li>
+</ul>
+<h2>Основные семантические теги HTML5</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><code>&lt;header&gt;</code> — вводная часть страницы или раздела (логотип, навигация)</li>
+  <li style="margin-bottom:8px"><code>&lt;nav&gt;</code> — блок навигации</li>
+  <li style="margin-bottom:8px"><code>&lt;main&gt;</code> — основное содержимое страницы (один раз!)</li>
+  <li style="margin-bottom:8px"><code>&lt;article&gt;</code> — самодостаточный блок контента (статья, новость)</li>
+  <li style="margin-bottom:8px"><code>&lt;section&gt;</code> — тематический раздел страницы</li>
+  <li style="margin-bottom:8px"><code>&lt;aside&gt;</code> — дополнительный контент (боковая панель)</li>
+  <li style="margin-bottom:8px"><code>&lt;footer&gt;</code> — нижняя часть страницы</li>
+</ul>
+<h2>Пример страницы с семантической разметкой</h2>
+<pre>&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Школьный блог&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href="/home"&gt;Главная&lt;/a&gt; |
+      &lt;a href="/articles"&gt;Статьи&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;article&gt;
+      &lt;header&gt;
+        &lt;h2&gt;Как я научился программировать&lt;/h2&gt;
+        &lt;p&gt;Опубликовано: 10 апреля 2026&lt;/p&gt;
+      &lt;/header&gt;
+      &lt;section&gt;
+        &lt;h3&gt;С чего всё началось&lt;/h3&gt;
+        &lt;p&gt;В седьмом классе...&lt;/p&gt;
+      &lt;/section&gt;
+    &lt;/article&gt;
+  &lt;/main&gt;
+
+  &lt;aside&gt;
+    &lt;h3&gt;Читайте также&lt;/h3&gt;
+    &lt;ul&gt;&lt;li&gt;&lt;a href="#"&gt;Топ ресурсов&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;© 2026 Школьный блог.&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</pre>
+<div class="note-box"><strong>Правило:</strong> Если для блока существует подходящий семантический тег — используйте его. Если нет — используйте <code>&lt;div&gt;</code>. Не используйте теги «не по назначению» ради нужного вида.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Возьмите HTML-страницу из предыдущих уроков и замените все &lt;div&gt; подходящими семантическими тегами.' },
+      { level: 'middle', text: 'Создайте страницу новостного сайта: шапка с навигацией, основная область с тремя &lt;article&gt;, боковая панель, подвал с контактами.' },
+      { level: 'hard', text: 'Создайте страницу «О компании» с полной семантической структурой: header, main с несколькими section, aside, footer с реквизитами.' }
+    ],
+    questions: [
+      'Что такое семантическая разметка? В чём её преимущества?',
+      'Для чего используется тег &lt;main&gt;? Сколько раз он может встречаться на странице?',
+      'В чём разница между тегами &lt;article&gt; и &lt;section&gt;?',
+      'Когда следует использовать &lt;div&gt; вместо семантических тегов?',
+      'Как семантическая разметка влияет на доступность сайта?'
+    ],
+    conclusion: 'Мы познакомились с семантической разметкой HTML5. В следующем уроке завершим изучение HTML — мультимедиа-элементы.'
+  },
+  {
+    id: 5, block: 'html', num: 6,
+    title: 'Мультимедиа и завершение HTML',
+    goal: 'Изучить теги для работы с аудио, видео и встроенным контентом.',
+    content: `
+<p>HTML5 значительно упростил работу с мультимедиа: теперь не нужно устанавливать плагины вроде Flash — всё работает прямо в браузере.</p>
+<h2>Видео: тег &lt;video&gt;</h2>
+<pre>&lt;video width="640" height="360" controls poster="preview.jpg"&gt;
+  &lt;source src="lesson.mp4" type="video/mp4"&gt;
+  &lt;source src="lesson.ogg" type="video/ogg"&gt;
+  Ваш браузер не поддерживает тег video.
+&lt;/video&gt;</pre>
+<p>Атрибуты: <code>controls</code> — элементы управления, <code>autoplay</code> — автозапуск, <code>loop</code> — зацикливание, <code>poster</code> — заставка.</p>
+<h2>Аудио: тег &lt;audio&gt;</h2>
+<pre>&lt;audio controls&gt;
+  &lt;source src="podcast.mp3" type="audio/mpeg"&gt;
+  &lt;source src="podcast.ogg" type="audio/ogg"&gt;
+  Ваш браузер не поддерживает тег audio.
+&lt;/audio&gt;</pre>
+<h2>Встраивание контента: тег &lt;iframe&gt;</h2>
+<pre>&lt;iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="YouTube video"
+  allowfullscreen&gt;
+&lt;/iframe&gt;</pre>
+<h2>Форматы изображений</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><strong>JPEG</strong> — фотографии (хорошее качество, малый размер)</li>
+  <li style="margin-bottom:6px"><strong>PNG</strong> — логотипы, иконки (поддерживает прозрачность)</li>
+  <li style="margin-bottom:6px"><strong>SVG</strong> — векторный формат, масштабируется без потерь</li>
+  <li style="margin-bottom:6px"><strong>WebP</strong> — современный формат, лучшее сжатие</li>
+</ul>
+<div class="note-box"><strong>Совет:</strong> Всегда указывайте атрибуты <code>width</code> и <code>height</code> у <code>&lt;img&gt;</code> — это помогает браузеру заранее зарезервировать место под изображение.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте страницу с встроенным видео с YouTube, заголовком и кратким описанием видео.' },
+      { level: 'middle', text: 'Создайте «Медиагалерею»: несколько изображений с alt, встроенная карта Google Maps (iframe), видео с YouTube.' },
+      { level: 'hard', text: 'Создайте страницу «Учебный портал» с семантической структурой, видео-уроком (iframe YouTube), списком тем, формой записи, аудио и изображениями — итоговое задание по HTML.' }
+    ],
+    questions: [
+      'Какой атрибут тега &lt;video&gt; добавляет стандартные элементы управления?',
+      'Для чего используется тег &lt;source&gt; внутри &lt;video&gt; и &lt;audio&gt;?',
+      'Что такое &lt;iframe&gt;? Приведите примеры его использования.',
+      'Когда лучше использовать PNG, а когда JPEG?',
+      'Зачем указывать атрибуты width и height у тега &lt;img&gt;?'
+    ],
+    conclusion: 'Мы завершили изучение HTML! Теперь вы умеете работать с видео, аудио и встраивать внешний контент. В следующем уроке начинаем CSS.'
+  },
+  {
+    id: 6, block: 'css', num: 7,
+    title: 'Введение в CSS',
+    goal: 'Понять назначение CSS, изучить способы подключения стилей и освоить основной синтаксис.',
+    content: `
+<p><strong>CSS</strong> (Cascading Style Sheets) — язык описания внешнего вида HTML-документа. Важная идея: разделение содержания (HTML) и оформления (CSS).</p>
+<h2>Три способа подключения CSS</h2>
+<h3>1. Встроенные стили (inline)</h3>
+<pre>&lt;p style="color: red;"&gt;Текст&lt;/p&gt;</pre>
+<h3>2. Внутренние стили (в &lt;head&gt;)</h3>
+<pre>&lt;head&gt;
+  &lt;style&gt;
+    p { color: blue; }
+  &lt;/style&gt;
+&lt;/head&gt;</pre>
+<h3>3. Внешние стили (рекомендуется)</h3>
+<pre>&lt;head&gt;
+  &lt;link rel="stylesheet" href="styles.css"&gt;
+&lt;/head&gt;</pre>
+<h2>Синтаксис CSS</h2>
+<pre>/* Селектор тега */
+p {
+  color: black;
+  font-size: 16px;
+}
+
+/* Селектор класса */
+.highlight {
+  background: yellow;
+}
+
+/* Селектор идентификатора */
+#logo {
+  width: 200px;
+}</pre>
+<h2>Каскадность и специфичность</h2>
+<p>Если к одному элементу применяется несколько правил, браузер разрешает конфликт:</p>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><strong>Специфичность:</strong> id (#) > class (.) > тег</li>
+  <li style="margin-bottom:6px"><strong>Порядок:</strong> при равной специфичности побеждает позднее объявленное правило</li>
+  <li style="margin-bottom:6px"><strong>!important:</strong> перекрывает все правила (использовать осторожно)</li>
+</ul>
+<div class="note-box"><strong>Обратите внимание:</strong> Непонимание каскадности — частая причина того, почему стили «не работают» у начинающих.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте файл styles.css и подключите его к HTML-странице. Задайте фоновый цвет, цвет текста и шрифт через селектор body.' },
+      { level: 'middle', text: 'Создайте страницу с заголовками и абзацами. Примените разные стили через три типа селекторов (тега, класса, id). Продемонстрируйте принцип каскадности.' },
+      { level: 'hard', text: 'Создайте страницу-демонстрацию блога. Оформите две темы — светлую и тёмную — в разных CSS-файлах, переключая которые меняется оформление всего сайта.' }
+    ],
+    questions: [
+      'Что такое CSS и зачем он нужен?',
+      'Перечислите три способа подключения CSS. Какой из них является предпочтительным?',
+      'Что такое CSS-правило? Из каких частей оно состоит?',
+      'Чем отличается селектор класса от селектора идентификатора?',
+      'Что такое специфичность в CSS? Почему она важна?'
+    ],
+    conclusion: 'Мы познакомились с CSS: синтаксисом, тремя способами подключения и принципом каскадности. В следующем уроке изучим цвета и шрифты.'
+  },
+  {
+    id: 7, block: 'css', num: 8,
+    title: 'Цвета, шрифты и текст в CSS',
+    goal: 'Освоить CSS-свойства для управления цветами, шрифтами и оформлением текста.',
+    content: `
+<h2>Форматы цветов в CSS</h2>
+<pre>color: red;                /* именованный */
+color: #FF0000;            /* hex (#RRGGBB) */
+color: rgb(255, 0, 0);     /* RGB */
+color: rgba(0, 0, 0, 0.5); /* RGBA с прозрачностью */
+color: hsl(0, 100%, 50%);  /* HSL */</pre>
+<h2>Шрифты</h2>
+<pre>body {
+  /* Стек шрифтов — запасные варианты */
+  font-family: 'Roboto', Arial, sans-serif;
+}</pre>
+<p>Для подключения Google Fonts добавьте в <code>&lt;head&gt;</code>:</p>
+<pre>&lt;link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"&gt;</pre>
+<h2>Основные свойства текста</h2>
+<pre>font-size: 16px;           /* размер шрифта */
+font-weight: bold;         /* жирность: normal/bold/100-900 */
+font-style: italic;        /* курсив */
+text-align: center;        /* выравнивание: left/right/center/justify */
+line-height: 1.6;          /* межстрочный интервал */
+text-decoration: none;     /* убирает подчёркивание ссылок */
+text-transform: uppercase; /* РЕГИСТР: uppercase/lowercase/capitalize */
+letter-spacing: 2px;       /* межбуквенный интервал */</pre>
+<h2>Пример оформления страницы</h2>
+<pre>@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2d2d2d;
+  background-color: #fafafa;
+}
+
+h1 { font-size: 48px; font-weight: 700; text-align: center; }
+
+a { color: #0f3460; text-decoration: none; }
+a:hover { text-decoration: underline; }</pre>
+<div class="note-box"><strong>Рекомендация:</strong> Рекомендуемое значение line-height для основного текста — 1.5–1.6. Хорошая типографика — основа профессионального дизайна.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте CSS-файл для страницы-статьи: шрифт, цвет текста и фона, размер, межстрочный интервал, выравнивание. Используйте два разных шрифта.' },
+      { level: 'middle', text: 'Подключите Google Fonts: один шрифт для заголовков, другой для текста. Оформите заголовки разными цветами. Уберите подчёркивание ссылок, добавьте эффект при наведении.' },
+      { level: 'hard', text: 'Создайте стилизованную страницу с цветовой темой (4–5 цветов). Последовательно применяйте палитру. Продемонстрируйте все изученные свойства текста.' }
+    ],
+    questions: [
+      'Перечислите три основных способа записи цвета в CSS.',
+      'Что такое «стек шрифтов» в font-family? Зачем он нужен?',
+      'Как подключить шрифт из Google Fonts к веб-странице?',
+      'Что делает свойство line-height? Какое значение рекомендуется?',
+      'Как с помощью CSS убрать подчёркивание у ссылок?'
+    ],
+    conclusion: 'Мы освоили работу с цветами и шрифтами в CSS. В следующем уроке изучим блочную модель — ключевую концепцию для создания макетов.'
+  },
+  {
+    id: 8, block: 'css', num: 9,
+    title: 'Блочная модель CSS',
+    goal: 'Понять и научиться применять блочную модель CSS для управления размерами и отступами элементов.',
+    content: `
+<p>Каждый HTML-элемент в браузере — это прямоугольный блок. Блочная модель состоит из четырёх концентрических областей.</p>
+<h2>Структура блока (изнутри наружу)</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><strong>content</strong> — содержимое (text, image). Задаётся через <code>width</code> и <code>height</code>.</li>
+  <li style="margin-bottom:8px"><strong>padding</strong> — внутренний отступ. Фон элемента распространяется на padding.</li>
+  <li style="margin-bottom:8px"><strong>border</strong> — граница вокруг padding.</li>
+  <li style="margin-bottom:8px"><strong>margin</strong> — внешний отступ. Всегда прозрачный.</li>
+</ul>
+<h2>Синтаксис сокращённой записи</h2>
+<pre>/* 1 значение — все стороны */
+padding: 20px;
+
+/* 2 значения — вертикаль | горизонталь */
+margin: 10px 20px;
+
+/* 4 значения — верх | право | низ | лево */
+padding: 10px 20px 15px 5px;
+
+/* Граница */
+border: 2px solid #333;  /* толщина стиль цвет */</pre>
+<h2>box-sizing: border-box</h2>
+<p>По умолчанию <code>width: 200px</code> + <code>padding: 20px</code> + <code>border: 5px</code> = реальная ширина 250px. Значение <code>border-box</code> включает padding и border в width:</p>
+<pre>/* Применяем ко всем элементам */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.card {
+  width: 300px;   /* ровно 300px включая padding и border */
+  padding: 20px;
+  border: 2px solid #ddd;
+  margin: 16px;
+  border-radius: 8px;
+}</pre>
+<div class="note-box"><strong>Margin collapsing:</strong> Вертикальные внешние отступы двух соседних блоков «схлопываются» — берётся большее из двух значений, а не сумма.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте три блока разной ширины и высоты. Задайте каждому разные padding, border и margin. Изучите блочную модель в инструментах разработчика (F12).' },
+      { level: 'middle', text: 'Создайте 3–4 карточки с заголовком, текстом и кнопкой. Фиксированная ширина, внутренние отступы, граница, скруглённые углы. Расположите их горизонтально.' },
+      { level: 'hard', text: 'Создайте страницу статьи: max-width: 800px, выравнивание по центру через margin: 0 auto, padding для отступов. Все элементы с согласованными отступами.' }
+    ],
+    questions: [
+      'Из каких четырёх областей состоит блочная модель CSS?',
+      'Как работает сокращённая запись margin с двумя значениями?',
+      'В чём разница между padding и margin?',
+      'Что делает box-sizing: border-box?',
+      'Что такое «схлопывание» внешних отступов (margin collapsing)?'
+    ],
+    conclusion: 'Блочная модель CSS — одна из важнейших концепций фронтенд-разработки. В следующем уроке изучим позиционирование элементов.'
+  },
+  {
+    id: 9, block: 'css', num: 10,
+    title: 'Позиционирование и отображение',
+    goal: 'Освоить свойства display и position для управления расположением элементов на странице.',
+    content: `
+<h2>Свойство display</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><code>block</code> — занимает всю ширину, начинается с новой строки (div, p, h1)</li>
+  <li style="margin-bottom:8px"><code>inline</code> — только нужная ширина, в строке (span, a, strong)</li>
+  <li style="margin-bottom:8px"><code>inline-block</code> — в строке, но можно задавать размеры</li>
+  <li style="margin-bottom:8px"><code>none</code> — полностью скрывает элемент</li>
+  <li style="margin-bottom:8px"><code>flex</code>, <code>grid</code> — современные режимы макета</li>
+</ul>
+<h2>Свойство position</h2>
+<pre>position: static;   /* по умолчанию, обычный поток */
+position: relative; /* смещение относительно своей позиции */
+position: absolute; /* изымается из потока, позиционируется
+                       относительно ближайшего родителя с position */
+position: fixed;    /* фиксируется в окне браузера */
+position: sticky;   /* «прилипает» при прокрутке */</pre>
+<h2>Практические примеры</h2>
+<pre>/* Фиксированная шапка */
+.header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Значок на карточке */
+.card { position: relative; }
+.badge {
+  position: absolute;
+  top: 10px; right: 10px;
+}
+
+/* Тултип */
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}</pre>
+<div class="note-box"><strong>z-index:</strong> Управляет порядком наложения перекрывающихся элементов. Работает только с position ≠ static. Больший z-index = выше.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте страницу с фиксированной шапкой (position: fixed), которая остаётся видимой при прокрутке. Убедитесь, что контент не скрывается под ней.' },
+      { level: 'middle', text: 'Создайте карточку товара. С помощью абсолютного позиционирования добавьте в угол значок «Хит». При наведении меняйте цвет кнопки.' },
+      { level: 'hard', text: 'Создайте модальное окно: при нажатии кнопки появляется полупрозрачный overlay и белый блок поверх него. Используйте position: fixed и управляйте видимостью через display: none.' }
+    ],
+    questions: [
+      'В чём разница между блочными (block) и строчными (inline) элементами?',
+      'Что делает display: none?',
+      'Чем position: relative отличается от position: absolute?',
+      'Для чего используется position: fixed? Приведите пример.',
+      'Что такое z-index? Когда он применяется?'
+    ],
+    conclusion: 'Мы освоили display и position. В следующем уроке изучим Flexbox — современный инструмент для гибких макетов.'
+  },
+  {
+    id: 10, block: 'css', num: 11,
+    title: 'CSS Flexbox',
+    goal: 'Освоить технологию Flexbox для создания гибких и адаптивных одномерных макетов.',
+    content: `
+<p>Flexbox предназначен для распределения элементов в одном направлении. Он решает задачи, которые раньше вызывали головную боль: вертикальное центрирование, равномерное распределение элементов.</p>
+<h2>Включение Flexbox</h2>
+<pre>/* Родительский контейнер */
+.container {
+  display: flex;
+}</pre>
+<h2>Свойства контейнера</h2>
+<pre>flex-direction: row;           /* row | column | row-reverse */
+justify-content: space-between; /* выравнивание по главной оси */
+                                /* flex-start|end|center|space-between|space-around */
+align-items: center;           /* выравнивание по поперечной оси */
+                                /* stretch|flex-start|end|center|baseline */
+flex-wrap: wrap;               /* перенос на следующую строку */
+gap: 16px;                     /* расстояние между элементами */</pre>
+<h2>Свойства flex-элементов</h2>
+<pre>flex: 1;           /* grow shrink basis */
+flex: 1 1 280px;   /* растёт, сжимается, базовый размер 280px */
+order: 2;          /* визуальный порядок */
+align-self: flex-end; /* индивидуальное выравнивание */</pre>
+<h2>Практические примеры</h2>
+<pre>/* Навигация */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+}
+
+/* Адаптивные карточки */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card {
+  flex: 1 1 280px; /* адаптивная ширина */
+}
+
+/* Центрирование */
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте горизонтальное навигационное меню с помощью Flexbox: логотип слева, 4–5 пунктов справа, вертикальное выравнивание по центру.' },
+      { level: 'middle', text: 'Создайте адаптивную сетку из 6 карточек с flex-wrap. Карточки должны переноситься при нехватке места. Одинаковое оформление для всех.' },
+      { level: 'hard', text: 'Создайте макет сайта с Flexbox: шапка, три колонки (меню 250px + основной контент + правая панель 200px), подвал. Высота — весь экран (100vh).' }
+    ],
+    questions: [
+      'Что нужно сделать, чтобы активировать Flexbox в контейнере?',
+      'Для чего используется justify-content? Перечислите три значения.',
+      'Чем align-items отличается от justify-content?',
+      'Что делает flex-wrap: wrap?',
+      'Как задать расстояние между flex-элементами без margin?'
+    ],
+    conclusion: 'Flexbox — мощный инструмент для одномерных макетов. В следующем уроке изучим CSS Grid и адаптивный дизайн.'
+  },
+  {
+    id: 11, block: 'css', num: 12,
+    title: 'CSS Grid и адаптивный дизайн',
+    goal: 'Освоить CSS Grid для двумерных макетов и медиазапросы для адаптивного дизайна.',
+    content: `
+<h2>CSS Grid: двумерные макеты</h2>
+<pre>/* Активация Grid */
+.container { display: grid; }
+
+/* Три равные колонки */
+grid-template-columns: repeat(3, 1fr);
+
+/* Смешанные размеры */
+grid-template-columns: 250px 1fr 200px;
+
+/* Отступы */
+gap: 16px;
+
+/* Элемент на несколько ячеек */
+.wide { grid-column: 1 / 3; }   /* 2 колонки */
+.full { grid-column: 1 / -1; }  /* вся ширина */</pre>
+<h2>Именованные области (grid-template-areas)</h2>
+<pre>.page {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-areas:
+    "header  header"
+    "sidebar main"
+    "footer  footer";
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.footer  { grid-area: footer; }</pre>
+<h2>Медиазапросы (Mobile First)</h2>
+<pre>/* Базовые стили — для мобильных */
+.grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+
+/* Планшеты */
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Десктоп */
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}</pre>
+<div class="note-box"><strong>Важно:</strong> Добавьте мета-тег в <code>&lt;head&gt;</code>:<br>
+<code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code></div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте галерею из 6 цветных блоков с помощью CSS Grid (сетка 3×2). Первому элементу задайте ширину на два столбца.' },
+      { level: 'middle', text: 'Создайте адаптивную страницу с карточками новостей: 1 колонка на мобильных, 2 на планшетах, 3 на больших экранах. Подход mobile first.' },
+      { level: 'hard', text: 'Полноценный адаптивный макет: на десктопе — sidebar+main+aside, на планшете — main+aside, на мобильном — всё в одну колонку. Итоговое задание по CSS.' }
+    ],
+    questions: [
+      'В чём главное отличие CSS Grid от Flexbox?',
+      'Что означает единица fr в CSS Grid?',
+      'Что такое медиазапрос? Как он записывается?',
+      'В чём суть подхода mobile first?',
+      'Какой мета-тег нужен для корректного адаптивного дизайна?'
+    ],
+    conclusion: 'Мы завершили изучение CSS! Теперь вы можете создавать красивые адаптивные страницы. В следующем уроке начинаем JavaScript.'
+  },
+  {
+    id: 12, block: 'js', num: 13,
+    title: 'Введение в JavaScript',
+    goal: 'Познакомиться с языком JavaScript, его возможностями, способами подключения и базовым синтаксисом.',
+    content: `
+<p>JavaScript — полноценный язык программирования, который выполняется прямо в браузере. Благодаря ему страницы становятся интерактивными.</p>
+<h2>Подключение JavaScript</h2>
+<pre>&lt;!-- В конце body (рекомендуется) --&gt;
+&lt;script src="main.js"&gt;&lt;/script&gt;
+
+&lt;!-- Или в head с атрибутом defer --&gt;
+&lt;script src="main.js" defer&gt;&lt;/script&gt;</pre>
+<h2>Переменные</h2>
+<pre>const name = "Алексей";  // нельзя переприсвоить
+let age = 16;             // можно изменять
+// var — устаревший способ, избегайте</pre>
+<h2>Типы данных</h2>
+<pre>const text = "строка";         // String
+const num = 42;                // Number
+const isStudent = true;        // Boolean
+const nothing = null;          // null
+let notDefined;                // undefined
+const arr = [1, 2, 3];        // Array
+const obj = { name: "Иван" }; // Object</pre>
+<h2>Операторы и вывод</h2>
+<pre>// Арифметика
+let score = 85 + 10;  // 95
+let rest = 10 % 3;    // 1 (остаток)
+
+// Сравнение (всегда ===, не ==!)
+console.log(10 === 10);    // true
+console.log(10 === "10");  // false
+
+// Шаблонная строка
+const msg = \`Привет, \${name}! Тебе \${age} лет.\`;
+console.log(msg);</pre>
+<h2>Массивы и объекты</h2>
+<pre>const fruits = ["яблоко", "банан", "апельсин"];
+console.log(fruits[0]);     // "яблоко"
+console.log(fruits.length); // 3
+
+const student = { name: "Мария", grade: 10 };
+console.log(student.name);  // "Мария"</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте JS-файл с переменными: ваше имя, возраст, класс, любимый предмет. Выведите в консоль предложение через шаблонную строку.' },
+      { level: 'middle', text: 'Создайте объект «Ученик» с полями (имя, фамилия, класс, предметы-массив, средний балл). Выведите полное имя, количество предметов, является ли балл отличным.' },
+      { level: 'hard', text: 'Создайте массив из 5 объектов «Товар» (название, цена, количество). Используя цикл, выведите все товары. Вычислите общую стоимость склада.' }
+    ],
+    questions: [
+      'Где в HTML-документе рекомендуется размещать &lt;script&gt;? Почему?',
+      'В чём разница между let и const?',
+      'Почему следует использовать === вместо ==?',
+      'Что такое шаблонная строка? Как она записывается?',
+      'Как обратиться к элементу массива по его индексу?'
+    ],
+    conclusion: 'Мы сделали первый шаг в мир JavaScript. В следующем уроке изучим условия и циклы — основу любой программной логики.'
+  },
+  {
+    id: 13, block: 'js', num: 14,
+    title: 'Условия и циклы в JavaScript',
+    goal: 'Освоить управляющие конструкции JavaScript: условные операторы и циклы.',
+    content: `
+<h2>Условный оператор if...else</h2>
+<pre>if (score >= 90) {
+  console.log("Отлично");
+} else if (score >= 75) {
+  console.log("Хорошо");
+} else if (score >= 60) {
+  console.log("Удовлетворительно");
+} else {
+  console.log("Неудовлетворительно");
+}
+
+// Тернарный оператор
+const access = age >= 18 ? "Разрешён" : "Запрещён";</pre>
+<h2>Оператор switch</h2>
+<pre>switch (day) {
+  case "Понедельник":
+    console.log("Начало недели");
+    break;
+  case "Пятница":
+    console.log("Конец недели");
+    break;
+  default:
+    console.log("Середина недели");
+}</pre>
+<h2>Циклы</h2>
+<pre>// for — когда известно количество итераций
+for (let i = 0; i &lt; 10; i++) {
+  console.log(i);
+}
+
+// for...of — перебор элементов массива
+for (const student of students) {
+  console.log(student);
+}
+
+// for...in — перебор свойств объекта
+for (const key in obj) {
+  console.log(key, obj[key]);
+}
+
+// while — пока условие истинно
+let i = 0;
+while (i &lt; 5) {
+  i++;
+}
+
+// break — выход из цикла
+// continue — пропустить итерацию</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Напишите программу: проверяет, чётное ли число. Выведите все числа от 1 до 20, которые делятся на 3.' },
+      { level: 'middle', text: 'Создайте массив из 10 оценок (0–100). Подсчитайте: количество отличных (90+), хороших (75–89), удовлетворительных (60–74), плохих (<60). Выведите статистику.' },
+      { level: 'hard', text: 'Реализуйте таблицу умножения (вложенные циклы, 1×1 до 10×10). Найдите все простые числа в массиве.' }
+    ],
+    questions: [
+      'Что происходит, если условие if равно false, а else не указан?',
+      'Как работает тернарный оператор? Приведите пример.',
+      'В чём разница между циклами for и while?',
+      'Что делает оператор break в цикле?',
+      'Чем for...of отличается от обычного for?'
+    ],
+    conclusion: 'Условия и циклы — основа логики программы. В следующем уроке изучим функции.'
+  },
+  {
+    id: 14, block: 'js', num: 15,
+    title: 'Функции в JavaScript',
+    goal: 'Изучить способы объявления и использования функций, стрелочные функции и методы массивов.',
+    content: `
+<p>Функции позволяют выделить повторяющиеся операции в отдельные именованные блоки. Принцип DRY: Don't Repeat Yourself.</p>
+<h2>Виды объявления функций</h2>
+<pre>// Function Declaration (поднимается, можно вызвать до объявления)
+function greet(name) {
+  return \`Привет, \${name}!\`;
+}
+
+// Function Expression (не поднимается)
+const square = function(n) {
+  return n * n;
+};
+
+// Стрелочная функция (краткий синтаксис)
+const cube = n =&gt; n * n * n;
+const add = (a, b) =&gt; a + b;
+
+// Параметры по умолчанию
+function power(base, exp = 2) {
+  return base ** exp;
+}
+power(3);    // 9
+power(3, 3); // 27</pre>
+<h2>Методы массивов с функциями</h2>
+<pre>const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// filter — фильтрация
+const evens = nums.filter(n =&gt; n % 2 === 0);
+// [2, 4, 6, 8, 10]
+
+// map — преобразование
+const squares = nums.map(n =&gt; n * n);
+// [1, 4, 9, 16, ...]
+
+// reduce — свёртка в одно значение
+const sum = nums.reduce((acc, n) =&gt; acc + n, 0);
+// 55
+
+// find — первый подходящий элемент
+const big = nums.find(n =&gt; n &gt; 7); // 8
+
+// forEach — перебор (без нового массива)
+nums.forEach(n =&gt; console.log(n));</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Напишите три функции: sumOfArray(arr), maxElement(arr), reverseArray(arr). Протестируйте в консоли.' },
+      { level: 'middle', text: 'Создайте массив объектов «Студент» (имя, оценка). Напишите: getTopStudents(students, minGrade), getAverageGrade(students), getStudentNames(students).' },
+      { level: 'hard', text: 'Мини-библиотека корзины: addItem(cart, item), removeItem(cart, name), getTotalPrice(cart), getDiscount(cart, percent), getSortedByPrice(cart).' }
+    ],
+    questions: [
+      'Что такое параметр функции? Чем он отличается от аргумента?',
+      'Что происходит, когда функция встречает return?',
+      'Как записывается стрелочная функция с одним параметром и выражением?',
+      'Что делает метод filter? Приведите пример.',
+      'Чем Function Declaration отличается от Function Expression?'
+    ],
+    conclusion: 'Функции — один из самых мощных инструментов JavaScript. В следующем уроке изучим работу с DOM.'
+  },
+  {
+    id: 15, block: 'js', num: 16,
+    title: 'Работа с DOM',
+    goal: 'Научиться использовать JavaScript для работы с Document Object Model: выбирать, изменять и создавать элементы.',
+    content: `
+<p><strong>DOM</strong> (Document Object Model) — интерфейс, представляющий HTML-документ в виде дерева объектов. JavaScript может обращаться и изменять их — именно так страницы становятся динамическими.</p>
+<h2>Выбор элементов</h2>
+<pre>// По id
+const el = document.getElementById("my-id");
+
+// По CSS-селектору (первый)
+const el = document.querySelector(".my-class");
+const el = document.querySelector("#nav a");
+
+// Все подходящие (NodeList)
+const items = document.querySelectorAll("li");</pre>
+<h2>Изменение элементов</h2>
+<pre>// Текстовое содержимое (без HTML)
+el.textContent = "Новый текст";
+
+// HTML-содержимое (осторожно с XSS!)
+el.innerHTML = "&lt;strong&gt;Жирный&lt;/strong&gt;";
+
+// Атрибуты
+el.setAttribute("href", "https://example.com");
+el.getAttribute("href");
+el.removeAttribute("disabled");
+
+// Классы
+el.classList.add("active");
+el.classList.remove("hidden");
+el.classList.toggle("selected"); // добавить/убрать
+el.classList.contains("active"); // проверить
+
+// Стили (camelCase!)
+el.style.backgroundColor = "#blue";
+el.style.fontSize = "20px";</pre>
+<h2>Создание и удаление элементов</h2>
+<pre>// Создать
+const li = document.createElement("li");
+li.textContent = "Новый пункт";
+list.appendChild(li);  // добавить в конец
+
+// Удалить
+el.remove();</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте страницу с заголовком, абзацем и кнопкой. Через JavaScript измените текст заголовка, добавьте класс к абзацу, измените цвет кнопки.' },
+      { level: 'middle', text: 'Создайте страницу с пустым списком. JavaScript при загрузке добавляет 5 элементов через createElement и цикл.' },
+      { level: 'hard', text: 'Создайте Todo List: добавление задач, кнопка «Удалить» у каждой, клик по задаче переключает класс «выполнено» (зачёркнутый текст).' }
+    ],
+    questions: [
+      'Что такое DOM? Как он связан с HTML-документом?',
+      'Чем querySelector отличается от querySelectorAll?',
+      'В чём разница между textContent и innerHTML?',
+      'Что делает classList.toggle?',
+      'Как создать новый HTML-элемент и добавить на страницу?'
+    ],
+    conclusion: 'DOM — связующее звено между JavaScript и страницей. В следующем уроке изучим события.'
+  },
+  {
+    id: 16, block: 'js', num: 17,
+    title: 'События в JavaScript',
+    goal: 'Научиться обрабатывать события пользователя: клики, нажатия клавиш, отправку форм.',
+    content: `
+<p><strong>Событие</strong> — сигнал о том, что произошло что-то важное: клик, ввод текста, нажатие клавиши.</p>
+<h2>Добавление обработчика событий</h2>
+<pre>const btn = document.getElementById("my-btn");
+
+btn.addEventListener("click", function(event) {
+  console.log("Кнопка нажата!");
+  console.log("Элемент:", event.target);
+});</pre>
+<h2>Основные виды событий</h2>
+<pre>// Мышь
+click, dblclick, mouseenter, mouseleave, mousemove
+
+// Клавиатура
+keydown, keyup
+event.key — название клавиши ("Enter", "Escape")
+
+// Формы
+submit, input, change, focus, blur
+
+// Документ
+DOMContentLoaded, load</pre>
+<h2>Практические примеры</h2>
+<pre>// Ввод в реальном времени
+input.addEventListener("input", e =&gt; {
+  display.textContent = "Вы ввели: " + e.target.value;
+});
+
+// Предотвращение отправки формы
+form.addEventListener("submit", e =&gt; {
+  e.preventDefault(); // отменяем перезагрузку
+  const name = document.getElementById("name").value;
+  if (!name.trim()) { alert("Введите имя!"); }
+});
+
+// Делегирование событий — обработчик на родителе
+list.addEventListener("click", e =&gt; {
+  if (e.target.tagName === "LI") {
+    e.target.classList.toggle("done");
+  }
+});</pre>
+<div class="note-box"><strong>Делегирование событий</strong> — важный паттерн: один обработчик на родителе вместо многих на детях. Работает для динамически добавляемых элементов.</div>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте кнопку «Изменить цвет». При каждом нажатии фон страницы меняет случайный цвет (используйте Math.random()).' },
+      { level: 'middle', text: 'Форма с валидацией: имя, email, сообщение. При отправке проверить: не пустое ли имя, формат email, длина сообщения ≥20 символов. Ошибки — под полями.' },
+      { level: 'hard', text: 'Полный Todo List: добавление по кнопке и Enter, отметка выполненных, удаление, фильтры «Все/Активные/Выполненные», счётчик задач. Делегирование событий.' }
+    ],
+    questions: [
+      'Что такое событие в JavaScript?',
+      'Как добавить обработчик события через addEventListener?',
+      'Для чего используется event.preventDefault()?',
+      'Что такое «всплытие» событий?',
+      'В чём преимущество делегирования событий?'
+    ],
+    conclusion: 'События — основа интерактивности. В следующем уроке изучим объекты, JSON и Fetch API.'
+  },
+  {
+    id: 17, block: 'js', num: 18,
+    title: 'Объекты, JSON и Fetch API',
+    goal: 'Углубить понимание объектов, изучить JSON и освоить работу с внешними данными через Fetch API.',
+    content: `
+<h2>Объекты и методы</h2>
+<pre>const calculator = {
+  result: 0,
+  add(n) { this.result += n; return this; },
+  multiply(n) { this.result *= n; return this; },
+  getResult() { return this.result; }
+};
+
+calculator.add(5).add(3).multiply(2);
+calculator.getResult(); // 16
+
+// Утилиты для объектов
+Object.keys(obj)    // массив ключей
+Object.values(obj)  // массив значений
+Object.entries(obj) // массив [ключ, значение]
+const copy = { ...obj }; // копия через spread</pre>
+<h2>Формат JSON</h2>
+<pre>const person = { name: "Анна", age: 20 };
+
+// Объект → строка JSON
+const str = JSON.stringify(person);
+// '{"name":"Анна","age":20}'
+
+// Строка JSON → объект
+const parsed = JSON.parse(str);
+parsed.name; // "Анна"</pre>
+<h2>Fetch API с async/await</h2>
+<pre>async function loadUsers() {
+  try {
+    const response = await fetch(
+      "https://jsonplaceholder.typicode.com/users"
+    );
+
+    if (!response.ok) {
+      throw new Error(\`Ошибка: \${response.status}\`);
+    }
+
+    const users = await response.json();
+    console.log("Загружено:", users.length);
+
+    users.slice(0, 3).forEach(user =&gt; {
+      console.log(user.name, user.email);
+    });
+
+  } catch (error) {
+    console.error("Ошибка:", error.message);
+  }
+}
+
+loadUsers();</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте объект «Студент» с методами getAverage(), getBestGrade(), toString(). Протестируйте все методы.' },
+      { level: 'middle', text: 'Загрузите посты с jsonplaceholder.typicode.com/posts. Выведите первые 10 на страницу в виде карточек с заголовком и текстом.' },
+      { level: 'hard', text: 'Приложение «Пользователи»: загрузить и отобразить всех пользователей (имя, email, компания, город). Поиск по имени. При клике на карточку — загружать посты пользователя.' }
+    ],
+    questions: [
+      'Что такое метод объекта? На что указывает this внутри метода?',
+      'Чем JSON отличается от обычного JavaScript-объекта?',
+      'Для чего используются JSON.stringify и JSON.parse?',
+      'Что такое промис (Promise)? Для чего он нужен?',
+      'Что делают ключевые слова async и await?'
+    ],
+    conclusion: 'Мы завершили изучение JavaScript! Теперь у вас есть все базовые инструменты. В следующих уроках применим всё на практике.'
+  },
+  {
+    id: 18, block: 'proj', num: 19,
+    title: 'Итоговый проект: сайт-визитка',
+    goal: 'Применить все знания HTML, CSS и JavaScript для создания полноценного персонального сайта-визитки.',
+    content: `
+<p>В этом уроке создаём полноценный сайт-визитку — персональное онлайн-портфолио. Работаем как в реальной разработке: сначала HTML, затем CSS, затем JavaScript.</p>
+<h2>Структура проекта</h2>
+<pre>portfolio/
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   └── main.js
+└── images/</pre>
+<h2>Разделы сайта</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><strong>#hero</strong> — главный экран с именем и должностью</li>
+  <li style="margin-bottom:6px"><strong>#about</strong> — раздел «Обо мне»</li>
+  <li style="margin-bottom:6px"><strong>#skills</strong> — навыки с прогресс-барами</li>
+  <li style="margin-bottom:6px"><strong>#projects</strong> — карточки проектов</li>
+  <li style="margin-bottom:6px"><strong>#contact</strong> — форма обратной связи</li>
+</ul>
+<h2>Ключевая HTML-структура</h2>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Алексей Иванов — Веб-разработчик&lt;/title&gt;
+  &lt;link rel="stylesheet" href="css/styles.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav class="navbar" id="navbar"&gt;
+    &lt;a href="#" class="logo"&gt;А.И.&lt;/a&gt;
+    &lt;ul class="nav-links"&gt;
+      &lt;li&gt;&lt;a href="#about"&gt;Обо мне&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="#skills"&gt;Навыки&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+
+  &lt;section id="hero" class="hero"&gt;
+    &lt;h1&gt;Алексей Иванов&lt;/h1&gt;
+    &lt;p&gt;Начинающий веб-разработчик&lt;/p&gt;
+    &lt;a href="#contact" class="btn"&gt;Связаться&lt;/a&gt;
+  &lt;/section&gt;
+
+  &lt;section id="skills"&gt;
+    &lt;div class="skill-item"&gt;
+      &lt;span&gt;HTML&lt;/span&gt;
+      &lt;div class="progress-bar"&gt;
+        &lt;div class="progress" data-width="90"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h2>CSS-концепции для проекта</h2>
+<pre>/* CSS-переменные */
+:root {
+  --primary: #3498db;
+  --text: #2d3436;
+  --bg: #f9f9f9;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}</pre>
+<h2>JavaScript-функциональность</h2>
+<pre>// Анимация прогресс-баров при попадании в видимость
+const observer = new IntersectionObserver(entries =&gt; {
+  entries.forEach(entry =&gt; {
+    if (entry.isIntersecting) {
+      const bar = entry.target;
+      bar.style.width = bar.dataset.width + "%";
+    }
+  });
+});
+document.querySelectorAll(".progress").forEach(el =&gt; {
+  observer.observe(el);
+});</pre>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте полную HTML-структуру со всеми 5 разделами. Подключите Google Fonts и базовые CSS-стили (цвета, шрифты, отступы).' },
+      { level: 'middle', text: 'Добавьте CSS-оформление: фиксированная навигация, Hero-раздел с большим заголовком, сетка карточек, адаптивность. Используйте CSS-переменные для цветов.' },
+      { level: 'hard', text: 'Добавьте JS: плавная прокрутка, анимация прогресс-баров (Intersection Observer), валидация формы, эффект изменения навигации при прокрутке. Отполируйте дизайн.' }
+    ],
+    questions: [
+      'Почему важно планировать структуру проекта до написания кода?',
+      'Что такое data-атрибуты? Как их читать в JavaScript?',
+      'Что такое CSS-переменные? Как они объявляются и используются?',
+      'Для чего используются якорные ссылки?',
+      'Что такое Intersection Observer API?'
+    ],
+    conclusion: 'Сайт-визитка — первый серьёзный проект, объединяющий все три технологии. Поздравляем! В следующем уроке создадим интерактивное веб-приложение.'
+  },
+  {
+    id: 19, block: 'proj', num: 20,
+    title: 'Финальный проект и итоги курса',
+    goal: 'Создать интерактивное веб-приложение «Заметки» и подвести итоги всего курса.',
+    content: `
+<h2>Приложение «Заметки»</h2>
+<p>Создаём функциональный менеджер заметок с сохранением данных в localStorage.</p>
+<h2>Архитектура приложения</h2>
+<pre>// Состояние — данные приложения
+let notes = JSON.parse(localStorage.getItem("notes")) || [];
+let searchQuery = "";
+
+// Сохранение в localStorage
+function saveNotes() {
+  localStorage.setItem("notes", JSON.stringify(notes));
+}
+
+// Добавление заметки
+function addNote(title, content) {
+  const note = {
+    id: Date.now(),
+    title: title.trim(),
+    content: content.trim(),
+    createdAt: new Date().toLocaleDateString("ru-RU")
+  };
+  notes.unshift(note); // добавляем в начало
+  saveNotes();
+  renderNotes();
+}
+
+// Удаление
+function deleteNote(id) {
+  notes = notes.filter(note =&gt; note.id !== id);
+  saveNotes();
+  renderNotes();
+}
+
+// Отрисовка
+function renderNotes() {
+  const container = document.getElementById("notes-container");
+  const filtered = notes.filter(note =&gt;
+    note.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  container.innerHTML = filtered.map(note =&gt; \`
+    &lt;div class="note-card" data-id="\${note.id}"&gt;
+      &lt;h3&gt;\${note.title}&lt;/h3&gt;
+      &lt;p&gt;\${note.content}&lt;/p&gt;
+      &lt;small&gt;\${note.createdAt}&lt;/small&gt;
+      &lt;button onclick="deleteNote(\${note.id})"&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+  \`).join("");
+}</pre>
+<h2>Итоги курса</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><strong>HTML (уроки 1–6):</strong> структура, теги, формы, семантика, мультимедиа</li>
+  <li style="margin-bottom:8px"><strong>CSS (уроки 7–12):</strong> стили, блочная модель, Flexbox, Grid, адаптивность</li>
+  <li style="margin-bottom:8px"><strong>JavaScript (уроки 13–18):</strong> переменные, функции, DOM, события, Fetch API</li>
+</ul>
+<h2>Что изучать дальше</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:8px"><strong>Углубить JavaScript:</strong> ES6+, ООП, промисы, модули</li>
+  <li style="margin-bottom:8px"><strong>Фреймворки:</strong> React, Vue.js или Angular</li>
+  <li style="margin-bottom:8px"><strong>Инструменты:</strong> Git, npm, Vite</li>
+  <li style="margin-bottom:8px"><strong>Бэкенд:</strong> Node.js или Python (Django/Flask)</li>
+</ul>
+<h2>Ресурсы для изучения</h2>
+<ul style="padding-left:22px; margin-bottom:14px">
+  <li style="margin-bottom:6px"><a href="https://developer.mozilla.org" target="_blank">MDN Web Docs</a> — developer.mozilla.org</li>
+  <li style="margin-bottom:6px"><a href="https://freecodecamp.org" target="_blank">freeCodeCamp</a> — freecodecamp.org</li>
+  <li style="margin-bottom:6px"><a href="https://learn.javascript.ru" target="_blank">learn.javascript.ru</a> — на русском языке</li>
+  <li style="margin-bottom:6px"><a href="https://theodinproject.com" target="_blank">The Odin Project</a> — theodinproject.com</li>
+</ul>`,
+    tasks: [
+      { level: 'basic', text: 'Создайте HTML и CSS для приложения «Заметки»: форма добавления, поле поиска, область для карточек с тенями и скруглёнными углами.' },
+      { level: 'middle', text: 'Реализуйте полную JS-логику: добавление, отображение, удаление, поиск. Подключите localStorage — заметки сохраняются после перезагрузки.' },
+      { level: 'hard', text: 'Расширьте приложение: редактирование по двойному клику, цветовые метки, сортировка по дате/алфавиту, счётчик заметок, кнопка «Очистить всё» с подтверждением, анимации через CSS transitions.' }
+    ],
+    questions: [
+      'Что такое localStorage? Как в нём хранить объекты?',
+      'Почему в финальном проекте данные, логика и отображение разделены?',
+      'Каковы следующие шаги в изучении веб-разработки?',
+      'Что такое JavaScript-фреймворк? Для чего он нужен?',
+      'Перечислите три бесплатных ресурса для изучения веб-разработки.'
+    ],
+    conclusion: 'Поздравляем с завершением курса «Основы сайтостроения»! Вы прошли путь от абсолютного новичка до начинающего разработчика. Продолжайте практиковаться — и успех придёт!'
+  }
+];
+
+let currentLesson = null;
+let completedLessons = JSON.parse(localStorage.getItem('wdCourse_done') || '[]');
+
+function getBlockLabel(b) {
+  const map = { html: 'HTML', css: 'CSS', js: 'JavaScript', proj: 'Проект' };
+  return map[b] || b;
+}
+
+function buildSidebar(filter) {
+  const blocks = [
+    { key: 'html', label: 'HTML · Уроки 1–6', color: '#C84030' },
+    { key: 'css',  label: 'CSS · Уроки 7–12', color: '#1860A5' },
+    { key: 'js',   label: 'JavaScript · Уроки 13–18', color: '#8A5000' },
+    { key: 'proj', label: 'Проекты · Уроки 19–20', color: '#0F6E56' }
+  ];
+
+  const q = (filter || '').toLowerCase();
+  let html = '';
+
+  blocks.forEach(block => {
+    const lessons = LESSONS.filter(l =>
+      l.block === block.key &&
+      (!q || l.title.toLowerCase().includes(q))
+    );
+    if (!lessons.length) return;
+
+    html += `<div class="block-header">
+      <span class="block-dot" style="background:${block.color}"></span>
+      ${block.label}
+    </div>`;
+
+    lessons.forEach(l => {
+      const done = completedLessons.includes(l.id);
+      const active = currentLesson === l.id;
+      html += `<div class="lesson-item ${active ? 'active' : ''}" onclick="openLesson(${l.id})">
+        <span class="lesson-num">${l.num}</span>
+        <span class="lesson-title-text">${l.title}</span>
+        <span class="lesson-done ${done ? 'done' : ''}">✓</span>
+      </div>`;
+    });
+  });
+
+  document.getElementById('lessonsList').innerHTML = html;
+}
+
+function updateProgress() {
+  const total = LESSONS.length;
+  const done = completedLessons.length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('globalProgressBar').style.width = pct + '%';
+  document.getElementById('globalProgressLabel').textContent = done + ' / ' + total;
+}
+
+function openLesson(id) {
+  currentLesson = id;
+  const lesson = LESSONS[id];
+
+  document.getElementById('welcomeScreen').style.display = 'none';
+  document.getElementById('lessonContent').style.display = 'block';
+
+  const done = completedLessons.includes(id);
+
+  const taskHTML = lesson.tasks.map((t, i) => {
+    const levels = ['basic', 'middle', 'hard'];
+    const labels = ['Базовый', 'Средний', 'Повышенный'];
+    return `<div class="task-card">
+      <div class="task-level ${levels[i]}">${labels[i]}</div>
+      <p>${t.text}</p>
+    </div>`;
+  }).join('');
+
+  const qHTML = lesson.questions.map(q => `<li>${q}</li>`).join('');
+
+  const prevBtn = id > 0 ? `<button class="nav-btn" onclick="openLesson(${id - 1})">← Урок ${LESSONS[id-1].num}</button>` : `<button class="nav-btn" disabled>← Назад</button>`;
+  const nextBtn = id < LESSONS.length - 1
+    ? `<button class="nav-btn primary" onclick="openLesson(${id + 1})">Урок ${LESSONS[id+1].num} →</button>`
+    : `<button class="nav-btn primary" style="background:#1D9E75;border-color:#1D9E75">🎉 Курс завершён!</button>`;
+
+  document.getElementById('lessonContent').innerHTML = `
+    <div class="lesson-page">
+      <div class="lesson-badge ${lesson.block}">${getBlockLabel(lesson.block)}</div>
+      <h1>Урок ${lesson.num}. ${lesson.title}</h1>
+      <div class="lesson-meta">Цель: ${lesson.goal}</div>
+
+      <div class="goal-box"><strong>Цель урока:</strong> ${lesson.goal}</div>
+
+      ${lesson.content}
+
+      <div class="tasks-section">
+        <h2>Практические задания</h2>
+        ${taskHTML}
+      </div>
+
+      <div class="questions-section">
+        <h2>Вопросы для самопроверки</h2>
+        <ol>${qHTML}</ol>
+      </div>
+
+      <div class="conclusion-box">
+        <strong>Вывод:</strong> ${lesson.conclusion}
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:24px">
+        <button class="done-btn ${done ? 'marked' : ''}" id="doneBtn" onclick="toggleDone(${id})">
+          <span class="check-icon">${done ? '✓' : '○'}</span>
+          ${done ? 'Урок пройден' : 'Отметить как пройденный'}
+        </button>
+      </div>
+
+      <div class="lesson-nav-buttons">
+        ${prevBtn}
+        ${nextBtn}
+      </div>
+    </div>
+  `;
+
+  buildSidebar(document.getElementById('searchInput').value);
+  document.getElementById('mainContent').scrollTop = 0;
+
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+function toggleDone(id) {
+  const idx = completedLessons.indexOf(id);
+  if (idx === -1) {
+    completedLessons.push(id);
+  } else {
+    completedLessons.splice(idx, 1);
+  }
+  localStorage.setItem('wdCourse_done', JSON.stringify(completedLessons));
+  updateProgress();
+  openLesson(id);
+}
+
+function filterLessons(q) {
+  buildSidebar(q);
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function showHome() {
+  currentLesson = null;
+  document.getElementById('welcomeScreen').style.display = 'block';
+  document.getElementById('lessonContent').style.display = 'none';
+  document.getElementById('mainContent').scrollTop = 0;
+  buildSidebar(document.getElementById('searchInput').value);
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+}
+
+buildSidebar();
+updateProgress();
+</script>
+</body>
+</html>
